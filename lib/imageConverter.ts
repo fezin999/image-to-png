@@ -12,6 +12,7 @@ export interface ConversionResult {
   originalSize: number;
   newSize: number;
   format: string;
+  compressionRatio?: number;
 }
 
 const QUALITY_MAP = {
@@ -99,6 +100,7 @@ export async function convertImageToPNG(
                 originalSize: file.size,
                 newSize: blob.size,
                 format: 'png',
+                compressionRatio: blob.size / file.size,
               });
             },
             'image/png',
@@ -202,6 +204,7 @@ export async function convertPNGToFormat(
                 originalSize: file.size,
                 newSize: blob.size,
                 format: targetFormat,
+                compressionRatio: blob.size / file.size,
               });
             },
             mimeType,

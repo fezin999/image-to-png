@@ -379,7 +379,7 @@ export default function Converter({ sourceFormat, targetFormat = 'png' }: Conver
                           </div>
                           <div className="flex items-center gap-4 text-sm text-gray-600">
                             <span>Format: {conversion.result.format.toUpperCase()}</span>
-                            <span>Size: {formatFileSize(conversion.result.size)}</span>
+                            <span>Size: {formatFileSize(conversion.result.newSize)}</span>
                             {conversion.result.compressionRatio && (
                               <span className="text-green-600 font-medium">
                                 {Math.round((1 - conversion.result.compressionRatio) * 100)}% smaller

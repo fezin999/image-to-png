@@ -12,6 +12,8 @@ import {
   SUPPORTED_FORMATS 
 } from '@/lib/seoConfig';
 
+export const dynamic = 'force-dynamic';
+
 interface PageProps {
   params: {
     format: string;
@@ -25,12 +27,12 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const format = params.format.toLowerCase();
+  const format = params?.format?.toLowerCase() || 'jpeg';
   return generateConverterMetadata(format, 'png');
 }
 
 export default function FormatToPNGPage({ params }: PageProps) {
-  const format = params.format.toLowerCase();
+  const format = params?.format?.toLowerCase() || 'jpeg';
   const formatUpper = format.toUpperCase();
   
   const faqs = generateFormatFAQs(format, 'png');
