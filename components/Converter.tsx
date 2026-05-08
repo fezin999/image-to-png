@@ -14,6 +14,8 @@ import {
 interface ConverterProps {
   sourceFormat?: string;
   targetFormat?: string;
+  unlimitedMode?: boolean;
+  showBranding?: boolean;
 }
 
 interface ConversionState {
@@ -25,7 +27,7 @@ interface ConversionState {
   preview?: string;
 }
 
-export default function Converter({ sourceFormat, targetFormat = 'png' }: ConverterProps) {
+export default function Converter({ sourceFormat, targetFormat = 'png', unlimitedMode = false, showBranding = true }: ConverterProps) {
   const [conversions, setConversions] = useState<ConversionState[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [options, setOptions] = useState<ConversionOptions>({
@@ -35,7 +37,7 @@ export default function Converter({ sourceFormat, targetFormat = 'png' }: Conver
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [conversionCount, setConversionCount] = useState(0);
   const [showLimitModal, setShowLimitModal] = useState(false);
-  const MAX_CONVERSIONS = 5;
+  const MAX_CONVERSIONS = unlimitedMode ? 999 : 5;
 
   const handleFiles = useCallback(async (files: FileList | null) => {
     if (!files || files.length === 0) return;
@@ -270,7 +272,9 @@ export default function Converter({ sourceFormat, targetFormat = 'png' }: Conver
 
           <div className="text-xs text-gray-500 space-y-1">
             <p>Supports: JPEG, PNG, WEBP, GIF, BMP, TIFF, SVG, ICO, HEIC, AVIF, and more</p>
-            <p className="font-medium">Maximum {MAX_CONVERSIONS} simultaneous conversions</p>
+            {!unlimitedMode && (
+              <p className="font-medium">Maximum {MAX_CONVERSIONS} simultaneous conversions</p>
+            )}
           </div>
         </div>
       </div>
